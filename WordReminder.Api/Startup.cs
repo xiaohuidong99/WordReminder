@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using WordReminder.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace WordReminder.Api
 {
@@ -23,6 +25,9 @@ namespace WordReminder.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = @"Server=.\SQLEXPRESS;Database=EFGetStarted.AspNetCore.NewDb;Trusted_Connection=True;";
+            services.AddDbContext<WordReminderContext>(options => options.UseSqlServer(Configuration.GetConnectionString(connection)));
+
             services.AddMvc();
         }
 
