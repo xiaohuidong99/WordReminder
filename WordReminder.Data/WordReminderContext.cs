@@ -12,10 +12,5 @@ namespace WordReminder.Data
         public DbSet<KeywordMeaning> KeywordMeanings { get; set; }
         public DbSet<KeywordMeaningSentence> KeywordMeaningSentences { get; set; }
         public DbSet<User> Users { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-           
-        }
     }
 }
