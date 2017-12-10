@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WordReminder.Data.Model;
 
-
-
 namespace WordReminder.Data
 {
     public class WordReminderContext : DbContext
