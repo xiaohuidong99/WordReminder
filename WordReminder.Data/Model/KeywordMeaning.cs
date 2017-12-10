@@ -10,7 +10,7 @@ namespace WordReminder.Data.Model
         {
             KeywordMeaningSentences = new List<KeywordMeaningSentence>();
         }
-        public int MeaningId { get; set; }
+        public int KeywordMeaningId { get; set; }
         public int KeywordId { get; set; }
         public string Word { get; set; }
         public KeywordType KeywordType { get; set; }
