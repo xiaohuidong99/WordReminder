@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,10 +26,16 @@ namespace WordReminder.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
             string connection = @"Server=(localdb)\mssqllocaldb;Database=WordReminderDb;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<WordReminderContext>(opption => opption.UseSqlServer(connection));
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.LoginPath = "/Account/Login";
+                        options.LogoutPath = "/Account/Logoff";
+                    });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -43,6 +51,12 @@ namespace WordReminder.Web
             }
 
             app.UseStaticFiles();
+            app.UseCookiePolicy(new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.Strict
+            });
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
