@@ -58,7 +58,6 @@ namespace WordReminder.Web.Controllers
                         IsPersistent = model.Remember,
                         ExpiresUtc = DateTime.UtcNow.AddMinutes(10)
                     });
-                //HttpContext.Response.Cookies.Append("auth", "1");
 
                 return RedirectToAction("Index", "Home");
             }

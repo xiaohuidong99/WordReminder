@@ -9,8 +9,10 @@ namespace WordReminder.Biz.Repositories
 {
     public interface IRepository<T> where T : class
     {
-        IQueryable<T> GetAll();
-        IQueryable<T> GetAll(Expression<Func<T, bool>> predicate);
+        List<T> GetAll();
+        Task<List<T>> GetAllAsync();
+        List<T> FindBy(Expression<Func<T, bool>> predicate);
+        Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate);
         T GetById(int id);
         Task<T> GetByIdAsync(int id);
         T Get(Expression<Func<T, bool>> predicate);

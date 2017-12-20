@@ -47,14 +47,22 @@ namespace WordReminder.Biz.Repositories
             return dbSet.Where(predicate).SingleOrDefault();
         }
 
-        public IQueryable<T> GetAll()
+        public List<T> GetAll()
         {
-            return dbSet;
+            return  dbSet.ToList();
+        }
+        public async Task<List<T>> GetAllAsync()
+        {
+            return await dbSet.ToListAsync();
         }
 
-        public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate)
+        public List<T> FindBy(Expression<Func<T, bool>> predicate)
         {
-            return dbSet.Where(predicate);
+            return dbSet.Where(predicate).ToList();
+        }
+        public async Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await dbSet.Where(predicate).ToListAsync();
         }
 
         public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
