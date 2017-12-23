@@ -56,7 +56,7 @@ namespace WordReminder.Web
                 MinimumSameSitePolicy = SameSiteMode.Strict
             });
 
-            app.UseAuthentication();
+            app.UseAuthentication();          
 
             app.UseMvc(routes =>
             {
