@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WordReminder.Data.Model.KeywordMeaning>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewBag.KeywordId">Create New</a> | 
+    <a asp-action="Index" asp-controller="Keywords" asp-route-id="@ViewBag.KeywordId">Back to List</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.KeywordMeaningId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.KeywordId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Word)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.KeywordType)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeywordMeaningId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeywordId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Word)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeywordType)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

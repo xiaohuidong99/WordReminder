@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace WordReminder.Data.Model
@@ -10,9 +11,19 @@ namespace WordReminder.Data.Model
         {
             KeywordMeaningSentences = new List<KeywordMeaningSentence>();
         }
+
+        [Required]
+        [Display(Name = "Keyword Meaning Id")]
         public int KeywordMeaningId { get; set; }
+
+        [Required]
+        [Display(Name = "Keyword Id")]
         public int KeywordId { get; set; }
+
+        [Required]
         public string Word { get; set; }
+
+        [Display(Name = "Keyword Type")]
         public KeywordType KeywordType { get; set; }
 
         

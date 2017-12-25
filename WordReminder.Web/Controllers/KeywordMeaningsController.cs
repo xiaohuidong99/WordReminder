@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using WordReminder.Biz.Repositories;
+using WordReminder.Biz.UnitOfWorks;
+using WordReminder.Data.Model;
+
+namespace WordReminder.Web.Controllers
+{
+    [Authorize]
+    public class KeywordMeaningsController : Controller
+    {
+        private readonly IUnitOfWork uow;
+        private IRepository<KeywordMeaning> keywordMeaningRepository;
+
+        public KeywordMeaningsController(IUnitOfWork uow)
+        {
+            this.uow = uow;
+            keywordMeaningRepository = uow.GetRepository<KeywordMeaning>();
+        }
+
+        public async Task<IActionResult> Index(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var keywordMeanings = await this.keywordMeaningRepository.FindByAsync(q => q.KeywordId == id);
+
+            ViewBag.KeywordId = id.Value;
+            return View(keywordMeanings);
+        }
+
+        public IActionResult Create(int? id)
+        {
+            if (id == null) return NotFound();
+
+            KeywordMeaning model = new KeywordMeaning();
+            model.KeywordId = id.Value;
+
+            PopulateKeywordTypeDropDownList();
+            return View(model);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("KeywordId,Word,KeywordType")]KeywordMeaning model)
+        {
+            if (ModelState.IsValid)
+            {
+                keywordMeaningRepository.Add(new KeywordMeaning
+                {
+                    KeywordId = model.KeywordId,
+                    KeywordType = model.KeywordType,
+                    Word = model.Word
+                });
+                await uow.SaveChangesAsync();
+                return RedirectToAction("Index", "KeywordMeanings", new { id = model.KeywordId });
+            }
+            PopulateKeywordTypeDropDownList();
+            return View(model);
+        }
+
+        private void PopulateKeywordTypeDropDownList(object selectedValue = null)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var keywordTypes = Enum.GetValues(typeof(KeywordType));
+            foreach (KeywordType item in keywordTypes)
+            {
+                list.Add(new SelectListItem
+                {
+                    Text = Enum.GetName(typeof(KeywordType), item),
+                    Value = item.ToString()
+                });
+            }
+
+            ViewBag.KeywordType = new SelectList(list, "Value", "Text", selectedValue);
+        }
+    }
+}
