@@ -62,6 +62,46 @@ namespace WordReminder.Web.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var keywordMeaning = await keywordMeaningRepository.GetByIdAsync(id.Value);
+            PopulateKeywordTypeDropDownList(keywordMeaning.KeywordType);
+            return View(keywordMeaning);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(KeywordMeaning model)
+        {
+            if (ModelState.IsValid)
+            {
+                keywordMeaningRepository.Edit(model);
+                await uow.SaveChangesAsync();
+                return RedirectToAction("Index", "KeywordMeanings", new { id = model.KeywordId });
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var keywordMeaning = await keywordMeaningRepository.GetByIdAsync(id.Value);
+            if (keywordMeaning == null) return NotFound();
+
+            return View(keywordMeaning);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var keywordMeaning = await keywordMeaningRepository.GetByIdAsync(id);
+            keywordMeaningRepository.Delete(keywordMeaning);
+            await uow.SaveChangesAsync();
+            return RedirectToAction("Index", "KeywordMeanings", new { id = keywordMeaning.KeywordId });
+        }
+
         private void PopulateKeywordTypeDropDownList(object selectedValue = null)
         {
             List<SelectListItem> list = new List<SelectListItem>();

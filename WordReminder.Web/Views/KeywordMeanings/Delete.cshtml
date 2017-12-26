@@ -1,0 +1,34 @@
+﻿@model WordReminder.Data.Model.KeywordMeaning
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>KeywordMeaning</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Word)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Word)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.KeywordType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.KeywordType)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="KeywordMeaningId" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index" asp-route-id="@Model.KeywordId">Back to List</a>
+    </form>
+</div>
