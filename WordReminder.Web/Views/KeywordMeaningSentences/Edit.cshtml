@@ -1,25 +1,24 @@
-﻿@model WordReminder.Data.Model.Keyword
+﻿@model WordReminder.Data.Model.KeywordMeaningSentence
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Keyword Edit</h2>
+<h2>Edit</h2>
 
-<h4>Keyword</h4>
+<h4>Keyword Meaning Sentence</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        
-            <input type="hidden" asp-for="KeywordId" class="form-control" />
+            <input type="hidden" asp-for="KeywordMeaningId" />
+            <input type="hidden" asp-for="KeywordMeaningSentenceId" />           
             <div class="form-group">
-                <label asp-for="Word" class="control-label"></label>
-                <input asp-for="Word" class="form-control" />
-                <span asp-validation-for="Word" class="text-danger"></span>
+                <label asp-for="Sentence" class="control-label"></label>
+                <textarea asp-for="Sentence" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Sentence" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -29,7 +28,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-id="@Model.KeywordMeaningId">Back to List</a>
 </div>
 
 @section Scripts {

@@ -23,7 +23,8 @@ namespace WordReminder.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await keywordRepository.GetAllAsync());
+            var list=await keywordRepository.GetAllAsync();
+            return View(list);
         }
 
         public IActionResult Create()

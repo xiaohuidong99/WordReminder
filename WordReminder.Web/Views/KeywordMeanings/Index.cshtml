@@ -46,8 +46,8 @@
                     @Html.DisplayFor(modelItem => item.KeywordType)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.KeywordMeaningId }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Index", "KeywordMeaningSentences", new { id=item.KeywordMeaningId  }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.KeywordMeaningId }) |                  
                     @Html.ActionLink("Delete", "Delete", new { id = item.KeywordMeaningId })
                 </td>
             </tr>

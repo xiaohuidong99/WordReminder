@@ -79,5 +79,6 @@ namespace WordReminder.Biz.Repositories
         {
             return await dbSet.FindAsync(id);
         }
+    
     }
 }

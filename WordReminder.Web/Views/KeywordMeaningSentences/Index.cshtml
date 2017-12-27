@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WordReminder.Data.Model.KeywordMeaningSentence>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewBag.KeywordMeaningId">Create New</a> |
+    <a asp-action="Index" asp-controller="KeywordMeanings" asp-route-id="@ViewBag.KeywordMeaningId">Back to List</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.KeywordMeaningSentenceId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KeywordMeaningId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sentence)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KeywordMeaningSentenceId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KeywordMeaningId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sentence)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.KeywordMeaningSentenceId }) |                   
+                    @Html.ActionLink("Delete", "Delete", new { id=item.KeywordMeaningSentenceId})
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
