@@ -13,7 +13,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-  
+
             <input type="hidden" asp-for="KeywordId" />
             <input type="hidden" asp-for="KeywordMeaningId" />
             <div class="form-group">
@@ -37,3 +37,6 @@
     <a asp-action="Index" asp-route-id="@Model.KeywordId">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

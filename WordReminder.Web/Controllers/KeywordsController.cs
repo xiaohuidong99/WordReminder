@@ -23,7 +23,7 @@ namespace WordReminder.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var list=await keywordRepository.GetAllAsync();
+            var list = await keywordRepository.GetAllAsync();
             return View(list);
         }
 
@@ -37,9 +37,13 @@ namespace WordReminder.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                keywordRepository.Add(model);
-                await uow.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (!KeywordExisist(model.Word))
+                {
+                    keywordRepository.Add(model);
+                    await uow.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError("Word", string.Format("{0} is exsist.", model.Word));
             }
             return View(model);
         }
@@ -59,9 +63,13 @@ namespace WordReminder.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                keywordRepository.Edit(model);
-                await uow.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (!KeywordExisist(model.Word, model.KeywordId))
+                {
+                    keywordRepository.Edit(model);
+                    await uow.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError("Word", string.Format("{0} is exsist.", model.Word));
             }
             return View(model);
         }
@@ -83,6 +91,26 @@ namespace WordReminder.Web.Controllers
             keywordRepository.Delete(keyword);
             await uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private bool KeywordExisist(string word)
+        {
+            var keyword = keywordRepository.Get(q => q.Word.ToLower().Equals(word.ToLower()));
+            return keyword != null ? true : false;
+        }
+        private bool KeywordExisist(string word, int id)
+        {
+            var keyword = keywordRepository.Get(q => q.Word.ToLower().Equals(word.ToLower()));
+            if (keyword == null) return false;
+
+            if (keyword.KeywordId != id)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

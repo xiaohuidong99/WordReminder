@@ -44,7 +44,7 @@ namespace WordReminder.Biz.Repositories
 
         public T Get(Expression<Func<T, bool>> predicate)
         {
-            return dbSet.Where(predicate).SingleOrDefault();
+            return dbSet.Where(predicate).AsNoTracking().SingleOrDefault();
         }
 
         public List<T> GetAll()

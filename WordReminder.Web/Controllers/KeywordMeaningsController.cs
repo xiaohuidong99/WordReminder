@@ -49,14 +49,18 @@ namespace WordReminder.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                keywordMeaningRepository.Add(new KeywordMeaning
+                if (!KeywordMeaningExisist(model.Word))
                 {
-                    KeywordId = model.KeywordId,
-                    KeywordType = model.KeywordType,
-                    Word = model.Word
-                });
-                await uow.SaveChangesAsync();
-                return RedirectToAction("Index", "KeywordMeanings", new { id = model.KeywordId });
+                    keywordMeaningRepository.Add(new KeywordMeaning
+                    {
+                        KeywordId = model.KeywordId,
+                        KeywordType = model.KeywordType,
+                        Word = model.Word
+                    });
+                    await uow.SaveChangesAsync();
+                    return RedirectToAction("Index", "KeywordMeanings", new { id = model.KeywordId }); 
+                }
+                ModelState.AddModelError("Word", string.Format("{0} is exsist.", model.Word));
             }
             PopulateKeywordTypeDropDownList();
             return View(model);
@@ -76,9 +80,13 @@ namespace WordReminder.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                keywordMeaningRepository.Edit(model);
-                await uow.SaveChangesAsync();
-                return RedirectToAction("Index", "KeywordMeanings", new { id = model.KeywordId });
+                if (!KeywordMeaningExisist(model.Word,model.KeywordMeaningId))
+                {
+                    keywordMeaningRepository.Edit(model);
+                    await uow.SaveChangesAsync();
+                    return RedirectToAction("Index", "KeywordMeanings", new { id = model.KeywordId }); 
+                }
+                ModelState.AddModelError("Word", string.Format("{0} is exsist.", model.Word));
             }
             return View(model);
         }
@@ -116,6 +124,25 @@ namespace WordReminder.Web.Controllers
             }
 
             ViewBag.KeywordType = new SelectList(list, "Value", "Text", selectedValue);
+        }
+        private bool KeywordMeaningExisist(string word)
+        {
+            var keywordMeaning = keywordMeaningRepository.Get(q => q.Word.ToLower().Equals(word.ToLower()));
+            return keywordMeaning != null ? true : false;
+        }
+        private bool KeywordMeaningExisist(string word, int id)
+        {
+            var keywordMeaning = keywordMeaningRepository.Get(q => q.Word.ToLower().Equals(word.ToLower()));
+            if (keywordMeaning == null) return false;
+
+            if (keywordMeaning.KeywordMeaningId != id)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

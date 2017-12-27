@@ -45,10 +45,14 @@ namespace WordReminder.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                sentenceRepository.Add(new KeywordMeaningSentence { KeywordMeaningId = model.KeywordMeaningId, Sentence = model.Sentence });
+                if (!KeywordMeaningSentenceExisist(model.Sentence))
+                {
+                    sentenceRepository.Add(new KeywordMeaningSentence { KeywordMeaningId = model.KeywordMeaningId, Sentence = model.Sentence });
 
-                await uow.SaveChangesAsync();
-                return RedirectToAction("Index", new { id = model.KeywordMeaningId });
+                    await uow.SaveChangesAsync();
+                    return RedirectToAction("Index", new { id = model.KeywordMeaningId }); 
+                }
+                ModelState.AddModelError("Sentence", string.Format("{0} is exsist.", model.Sentence));
             }
             return View(model);
         }
@@ -68,9 +72,13 @@ namespace WordReminder.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                sentenceRepository.Edit(model);
-                await uow.SaveChangesAsync();
-                return RedirectToAction("Index", new { id = model.KeywordMeaningId });
+                if (!KeywordMeaningSentenceExisist(model.Sentence,model.KeywordMeaningSentenceId))
+                {
+                    sentenceRepository.Edit(model);
+                    await uow.SaveChangesAsync();
+                    return RedirectToAction("Index", new { id = model.KeywordMeaningId }); 
+                }
+                ModelState.AddModelError("Word", string.Format("{0} is exsist.", model.Sentence));
             }
             return View(model);
         }
@@ -91,6 +99,25 @@ namespace WordReminder.Web.Controllers
             sentenceRepository.Delete(sentence);
             await uow.SaveChangesAsync();
             return RedirectToAction("Index", new { id = sentence.KeywordMeaningId });
+        }
+        private bool KeywordMeaningSentenceExisist(string sentence)
+        {
+            var meaningSentence = sentenceRepository.Get(q => q.Sentence.ToLower().Equals(sentence.ToLower()));
+            return meaningSentence != null ? true : false;
+        }
+        private bool KeywordMeaningSentenceExisist(string sentence, int id)
+        {
+            var meaningSentence = sentenceRepository.Get(q => q.Sentence.ToLower().Equals(sentence.ToLower()));
+            if (meaningSentence == null) return false;
+
+            if (meaningSentence.KeywordMeaningSentenceId != id)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
