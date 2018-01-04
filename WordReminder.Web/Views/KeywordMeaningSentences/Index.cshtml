@@ -4,14 +4,16 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@section styles{
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
 <h2>Index</h2>
 
 <p>
     <a asp-action="Create" asp-route-id="@ViewBag.KeywordMeaningId">Create New</a> |
     <a asp-action="Index" asp-controller="KeywordMeanings" asp-route-id="@ViewBag.KeywordMeaningId">Back to List</a>
 </p>
-<table class="table">
+<table class="mytable display" id="mytable"  cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>
@@ -40,10 +42,20 @@
                     @Html.DisplayFor(modelItem => item.Sentence)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.KeywordMeaningSentenceId }) |                   
-                    @Html.ActionLink("Delete", "Delete", new { id=item.KeywordMeaningSentenceId})
+                    @Html.ActionLink("Edit", "Edit", new { id = item.KeywordMeaningSentenceId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.KeywordMeaningSentenceId })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+@section scripts{
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#mytable').DataTable();
+        });
+    </script>
+
+}

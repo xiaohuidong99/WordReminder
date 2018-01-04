@@ -15,18 +15,21 @@ namespace WordReminder.Web.Controllers
     {
         private readonly IUnitOfWork uow;
         private readonly IRepository<KeywordMeaningSentence> sentenceRepository;
+        private readonly IRepository<KeywordMeaning> keywordMeaningRepository;
         public KeywordMeaningSentencesController(IUnitOfWork uow)
         {
             this.uow = uow;
             sentenceRepository = uow.GetRepository<KeywordMeaningSentence>();
+            keywordMeaningRepository = uow.GetRepository<KeywordMeaning>();
         }
         public async Task<IActionResult> Index(int? id)
         {
             if (id == null) return NotFound();
 
+            var meaning = await keywordMeaningRepository.GetByIdAsync(id.Value);
             var sentences = await sentenceRepository.FindByAsync(q => q.KeywordMeaningId == id.Value);
 
-            ViewBag.KeywordMeaningId = id.Value;
+            ViewBag.KeywordMeaningId = meaning.KeywordId;
             return View(sentences);
         }
 

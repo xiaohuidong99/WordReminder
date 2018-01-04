@@ -35,6 +35,7 @@ namespace WordReminder.Web
                     {
                         options.LoginPath = "/Account/Login";
                         options.LogoutPath = "/Account/Logoff";
+                        options.SlidingExpiration = true;
                     });
         }
 
