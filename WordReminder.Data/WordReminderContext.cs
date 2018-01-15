@@ -7,12 +7,13 @@ namespace WordReminder.Data
     {
         public WordReminderContext(DbContextOptions<WordReminderContext> options) : base(options)
         {
-
+          
         }
         public DbSet<Keyword> Keywords { get; set; }
         public DbSet<KeywordMeaning> KeywordMeanings { get; set; }
         public DbSet<KeywordMeaningSentence> KeywordMeaningSentences { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserWord> UserWords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,7 @@ namespace WordReminder.Data
             modelBuilder.Entity<KeywordMeaning>().ToTable("KeywordMeaning");
             modelBuilder.Entity<KeywordMeaningSentence>().ToTable("KeywordMeaningSentence");
             modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<UserWord>().ToTable("UserWord");
         }
     }
 }

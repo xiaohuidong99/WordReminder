@@ -12,9 +12,10 @@ using WordReminder.Data.Model;
 namespace WordReminder.Data.Migrations
 {
     [DbContext(typeof(WordReminderContext))]
-    partial class WordReminderContextModelSnapshot : ModelSnapshot
+    [Migration("20180112183435_1")]
+    partial class _1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

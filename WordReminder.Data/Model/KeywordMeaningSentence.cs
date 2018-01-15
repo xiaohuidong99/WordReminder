@@ -16,6 +16,6 @@ namespace WordReminder.Data.Model
         [Required]
         public string Sentence { get; set; }
 
-        public virtual KeywordMeaning KeywordMeaning { get; set; }
+        public KeywordMeaning KeywordMeaning { get; set; }
     }
 }

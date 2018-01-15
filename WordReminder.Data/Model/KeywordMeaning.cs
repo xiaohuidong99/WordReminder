@@ -27,7 +27,7 @@ namespace WordReminder.Data.Model
         public KeywordType KeywordType { get; set; }
 
         
-        public virtual Keyword Keyword { get; set; }
-        public virtual List<KeywordMeaningSentence> KeywordMeaningSentences { get; set; }
+        public  Keyword Keyword { get; set; }
+        public  List<KeywordMeaningSentence> KeywordMeaningSentences { get; set; }
     }
 }

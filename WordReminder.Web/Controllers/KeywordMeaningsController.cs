@@ -20,7 +20,7 @@ namespace WordReminder.Web.Controllers
         public KeywordMeaningsController(IUnitOfWork uow)
         {
             this.uow = uow;
-            keywordMeaningRepository = uow.GetRepository<KeywordMeaning>();
+            keywordMeaningRepository = this.uow.GetRepository<KeywordMeaning>();
         }
 
         public async Task<IActionResult> Index(int? id)

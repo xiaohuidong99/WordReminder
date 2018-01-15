@@ -49,7 +49,7 @@ namespace WordReminder.Biz.Repositories
 
         public List<T> GetAll()
         {
-            return  dbSet.ToList();
+            return dbSet.ToList();
         }
         public async Task<List<T>> GetAllAsync()
         {

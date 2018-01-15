@@ -18,6 +18,7 @@ namespace WordReminder.Data.Model
         [Required]
         public string Word { get; set; }
 
-        public virtual List<KeywordMeaning> Meanings { get; set; }
+        //relations
+        public  List<KeywordMeaning> Meanings { get; set; }
     }
 }

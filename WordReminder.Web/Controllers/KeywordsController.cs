@@ -18,7 +18,7 @@ namespace WordReminder.Web.Controllers
         public KeywordsController(IUnitOfWork uow)
         {
             this.uow = uow;
-            keywordRepository = uow.GetRepository<Keyword>();
+            keywordRepository = this.uow.GetRepository<Keyword>();
         }
 
         public async Task<IActionResult> Index()
